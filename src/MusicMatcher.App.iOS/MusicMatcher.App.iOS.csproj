@@ -99,6 +99,7 @@
     <Compile Include="Views\SampleCell.designer.cs">
       <DependentUpon>SampleCell.cs</DependentUpon>
     </Compile>
+    <BundleResource Include="Resources\Titel.csv" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Views\DetailViewController.cs" />
@@ -116,6 +117,11 @@
     </ImageAsset>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.16.3.0\lib\netstandard1.3\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="ReactiveUI, Version=7.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\reactiveui-core.7.1.0\lib\Xamarin.iOS10\ReactiveUI.dll</HintPath>
       <Private>True</Private>
@@ -125,6 +131,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Rx-Core.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Core.dll</HintPath>
       <Private>True</Private>

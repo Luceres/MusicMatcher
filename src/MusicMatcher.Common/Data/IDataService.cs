@@ -5,8 +5,8 @@ namespace MusicMatcher.Common.Data
 {
     internal interface IDataService
     {
-        Task<List<Artist>> LoadAllArtistsAsync(int slowness);
+        Task<IEnumerable<Artist>> LoadAllArtistsAsync(int slowness);
 
-        Task<List<Song>> LoadAllSongsAsync();
+        Task<IEnumerable<Song>> LoadAllSongsAsync();
     }
 }

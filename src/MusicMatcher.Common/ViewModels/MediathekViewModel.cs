@@ -20,14 +20,14 @@ namespace MusicMatcher.Common
             _artists = new ReactiveList<Artist>();
             _songs = new ReactiveList<Song>();
 
-            LoadArtistsCommand = ReactiveCommand.CreateFromTask(LoadArtistsAsync);
+            LoadArtistsCommand = ReactiveCommand.CreateFromTask(async () => await LoadArtistsAsync());
             LoadArtistsCommand.ThrownExceptions.Subscribe(ex =>
                 {
                     Debug.WriteLine(ex.Message);
                 }
             );
 
-            LoadSongsCommand = ReactiveCommand.CreateFromTask(LoadSongsAsync);
+            LoadSongsCommand = ReactiveCommand.CreateFromTask(async () => await LoadSongsAsync());
             LoadSongsCommand.ThrownExceptions.Subscribe(ex =>
             {
                 Debug.WriteLine(ex.Message);

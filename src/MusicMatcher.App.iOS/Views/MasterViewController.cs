@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reactive;
+using System.Reactive.Linq;
 using MusicMatcher.Common;
 using Foundation;
 using ReactiveUI;
@@ -26,18 +28,18 @@ namespace MusicMatcher.App.iOS
 
             ViewModel = _presenter.CreateMediathekViewModel();
 
-            ViewModel.LoadSongsCommand
-                .Execute()
-                .Subscribe();
-
             ViewModel
                 .WhenAnyValue(vm => vm.Songs)
                 .BindTo<Song, SampleCell>(
-                    TableView, 
+                    TableView,
                     SampleCell.CellIdentifier,
-                    SampleCell.SizeHint, 
+                    SampleCell.SizeHint,
                     cell => cell.Initialize()
                 );
+
+            ViewModel.LoadSongsCommand
+                .Execute()
+                .Subscribe();
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)

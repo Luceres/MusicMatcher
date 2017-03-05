@@ -12,7 +12,7 @@ namespace MusicMatcher.Common.Data
             _mediathekService = mediathekService;
         }
 
-        public async Task<List<Artist>> LoadAllArtistsAsync(int slowness)
+        public async Task<IEnumerable<Artist>> LoadAllArtistsAsync(int slowness)
         {
             await Task.Delay(slowness).ConfigureAwait(false);
 
@@ -71,7 +71,7 @@ namespace MusicMatcher.Common.Data
             };
         }
 
-        public Task<List<Song>> LoadAllSongsAsync()
+        public Task<IEnumerable<Song>> LoadAllSongsAsync()
         {
             return _mediathekService.ReadAllSongsAsync();
         }
