@@ -5,11 +5,18 @@ namespace MusicMatcher.Common.Data
 {
     internal class DataService : IDataService
     {
-        public async Task<List<IArtist>> LoadAllArtistsAsync(int slowness)
+        private readonly IMediathekService _mediathekService;
+
+        public DataService(IMediathekService mediathekService)
+        {
+            _mediathekService = mediathekService;
+        }
+
+        public async Task<List<Artist>> LoadAllArtistsAsync(int slowness)
         {
             await Task.Delay(slowness).ConfigureAwait(false);
 
-            return new List<IArtist>
+            return new List<Artist>
             {
                 new Artist {Name = "Beyouncé"},
                 new Artist {Name = "Adele"},
@@ -62,6 +69,11 @@ namespace MusicMatcher.Common.Data
                 new Artist {Name = "Tom Petty"},
                 new Artist {Name = "Frank Sinatra"},
             };
+        }
+
+        public Task<List<Song>> LoadAllSongsAsync()
+        {
+            return _mediathekService.ReadAllSongsAsync();
         }
     }
 }

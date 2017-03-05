@@ -32,5 +32,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+  <key>NSAppleMusicUsageDescription</key>
+  <string>This app uses your media library to identify your taste</string>
 </dict>
 </plist>

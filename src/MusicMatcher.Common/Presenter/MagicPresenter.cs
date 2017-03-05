@@ -1,14 +1,14 @@
 ﻿
 namespace MusicMatcher.Common
 {
-    public class MagicPresenter
+    internal class MagicPresenter : IMagicPresenter
     {
-        public static IArtistListViewModel CreateArtistListViewModel()
+        public IMediathekViewModel CreateMediathekViewModel()
         {
-            return new ArtistListViewModel();
+            return new MediathekViewModel();
         }
 
-        public static IArtistDetailViewModel CreateArtistDetailViewModel(IArtist artist)
+        public IArtistDetailViewModel CreateArtistDetailViewModel(Artist artist)
         {
             return new ArtistDetailViewModel(artist);
         }

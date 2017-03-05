@@ -7,14 +7,16 @@ namespace MusicMatcher.App.iOS
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
     [Register("AppDelegate")]
-    public partial class AppDelegate : UIApplicationDelegate
+    public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
         public override UIWindow Window { get; set; }
-        readonly AutoSuspendHelper _autoSuspendHelper;
+        private readonly AutoSuspendHelper _autoSuspendHelper;
 
         public AppDelegate()
         {
+            AppBootstrapper.RegisterDependencies();
+
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
             RxApp.SuspensionHost.CreateNewAppState = () => new AppState();

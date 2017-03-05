@@ -87,12 +87,14 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AppState.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="packages.config" />
+    <Compile Include="Services\MediathekService.cs" />
     <Compile Include="Views\SampleCell.cs" />
     <Compile Include="Views\SampleCell.designer.cs">
       <DependentUpon>SampleCell.cs</DependentUpon>

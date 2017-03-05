@@ -2,35 +2,42 @@
 using MusicMatcher.Common;
 using Foundation;
 using ReactiveUI;
+using Splat;
 using UIKit;
 
 namespace MusicMatcher.App.iOS
 {
-    public partial class MasterViewController : ReactiveTableViewController<IArtistListViewModel>
+    public partial class MasterViewController : ReactiveTableViewController<IMediathekViewModel>
     {
+        private readonly IMagicPresenter _presenter;
+
         public MasterViewController(IntPtr handle) : base(handle)
-        {           
+        {
+            _presenter = Locator.Current.GetService<IMagicPresenter>();
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            Title = NSBundle.MainBundle.LocalizedString("Master", "Master");
+            Title = "Music Matcher";
+            TableView.RowHeight = UITableView.AutomaticDimension;
+            TableView.EstimatedRowHeight = SampleCell.SizeHint;
 
-            ViewModel = MagicPresenter.CreateArtistListViewModel();
+            ViewModel = _presenter.CreateMediathekViewModel();
 
-            ViewModel.LoadListCommand
+            ViewModel.LoadSongsCommand
                 .Execute()
                 .Subscribe();
 
-            ViewModel.WhenAnyValue(vm => vm.Artists)
-                     .BindTo<IArtist, SampleCell>(
-                        TableView, 
-                        SampleCell.CellIdentifier,
-                        SampleCell.SizeHint, 
-                        cell => cell.Initialize()
-                     );
+            ViewModel
+                .WhenAnyValue(vm => vm.Songs)
+                .BindTo<Song, SampleCell>(
+                    TableView, 
+                    SampleCell.CellIdentifier,
+                    SampleCell.SizeHint, 
+                    cell => cell.Initialize()
+                );
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
