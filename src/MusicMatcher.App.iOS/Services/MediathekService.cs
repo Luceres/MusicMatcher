@@ -2,33 +2,29 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using CoreAnimation;
 using CoreGraphics;
-using CsvHelper;
-using CsvHelper.Configuration;
 using MediaPlayer;
 using MusicMatcher.Common;
-using ObjCRuntime;
 
 namespace MusicMatcher.App.iOS
 {
     internal class MediathekService : IMediathekService
     {
-        public async Task<IEnumerable<Song>> ReadAllSongsAsync()
+        public async Task<Song[]> LoadAllSongsAsync()
         {
-            if (Runtime.Arch == Arch.SIMULATOR)
+            if (ObjCRuntime.Runtime.Arch == ObjCRuntime.Arch.SIMULATOR)
             {
-                return GetCsvData();
+                return await GetCsvDataAsync().ConfigureAwait(false);
             }
 
             var request = await MPMediaLibrary.RequestAuthorizationAsync();
 
             if (request != MPMediaLibraryAuthorizationStatus.Authorized)
             {
-                return new List<Song>();
+                return new List<Song>().ToArray();
             }
 
-            CGSize imageSize = new CGSize(50, 50);
+            var imageSize = new CGSize(50, 50);
 
             MPMediaQuery allSongs = MPMediaQuery.SongsQuery;
 
@@ -40,42 +36,47 @@ namespace MusicMatcher.App.iOS
                 Year = item.ReleaseDate.ToString(),
                 Rating = item.Rating.ToString(),
                 Image = item.Artwork.ImageWithSize(imageSize).AsPNG().ToArray()
-            }).ToList();
+            }).ToArray();
 
             return result;
         }
 
-        private static List<Song> GetDummyData()
+        private static async Task<Song[]> GetCsvDataAsync()
         {
-            return new List<Song>
-            {
-                new Song
-                {
-                    Titel = "Blue Train",
-                    Artist = "John Coltrane",
-                    Album = "Blue Train",
-                    Rating = "5",
-                    Image = null,
-                    Year = "1957"
-                }
-            };
-        }
-
-        private static Song[] GetCsvData()
-        {
-            CsvConfiguration config = new CsvConfiguration
-            {
-                Delimiter = ";"
-            };
-
-            var da = File.Exists("Titel.csv");
-
-            CsvReader csv = new CsvReader(new StreamReader("Titel.csv"), config);
-
             var result = new List<Song>();
-            while (csv.Read())
+
+            using (var fs = File.OpenRead("Titel.csv"))
+            using (var reader = new StreamReader(fs))
             {
-                result.Add(csv.GetRecord<Song>());  
+                bool isFirstRow = true;
+                while (!reader.EndOfStream)
+                {
+                    string line = await reader.ReadLineAsync().ConfigureAwait(false);
+
+                    if (string.IsNullOrEmpty(line))
+                    {
+                        break;
+                    }
+
+                    if (isFirstRow)
+                    {
+                        isFirstRow = false;
+                        continue;
+                    }
+
+                    var values = line.Split(';');
+
+                    var song = new Song
+                    {
+                        Titel = values[0],
+                        Artist = values[1],
+                        Year = values[2],
+                        Rating = values[3],
+                        Album = values[4]
+                    };
+
+                    result.Add(song);
+                }
             }
 
             return result.ToArray();

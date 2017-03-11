@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Reactive;
-using System.Reactive.Linq;
 using MusicMatcher.Common;
 using Foundation;
 using ReactiveUI;
@@ -16,6 +14,8 @@ namespace MusicMatcher.App.iOS
         public MasterViewController(IntPtr handle) : base(handle)
         {
             _presenter = Locator.Current.GetService<IMagicPresenter>();
+
+            ViewModel = _presenter.CreateMediathekViewModel();
         }
 
         public override void ViewDidLoad()
@@ -24,9 +24,7 @@ namespace MusicMatcher.App.iOS
 
             Title = "Music Matcher";
             TableView.RowHeight = UITableView.AutomaticDimension;
-            TableView.EstimatedRowHeight = SampleCell.SizeHint;
-
-            ViewModel = _presenter.CreateMediathekViewModel();
+            TableView.EstimatedRowHeight = SampleCell.SizeHint;  
 
             ViewModel
                 .WhenAnyValue(vm => vm.Songs)
@@ -47,7 +45,7 @@ namespace MusicMatcher.App.iOS
             if (segue.Identifier == "showDetail")
             {
                 var indexPath = TableView.IndexPathForSelectedRow;
-                var item = ViewModel.Artists[indexPath.Row];
+                var item = ViewModel.Songs[indexPath.Row];
 
                 ((DetailViewController)segue.DestinationViewController).SetDetailItem(item);
             }

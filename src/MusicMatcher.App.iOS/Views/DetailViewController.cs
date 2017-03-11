@@ -5,25 +5,29 @@ using Splat;
 
 namespace MusicMatcher.App.iOS
 {
-    public partial class DetailViewController : ReactiveViewController<IArtistDetailViewModel>
+    public partial class DetailViewController : ReactiveViewController<ISongDetailViewModel>
     {
         private readonly IMagicPresenter _presenter;
 
         public DetailViewController(IntPtr handle) : base(handle)
         {
             _presenter = Locator.Current.GetService<IMagicPresenter>();
+
+            ViewModel = _presenter.CreateSongDetailViewModel();
+
+            
         }
 
-        public void SetDetailItem(Artist artist)
+        public void SetDetailItem(Song song)
         {
-            ViewModel = _presenter.CreateArtistDetailViewModel(artist);
+            ViewModel.Song = song;
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            detailDescriptionLabel.Text = ViewModel.Name;
+            this.OneWayBind(ViewModel, x => x.Song.Titel, x => x.detailDescriptionLabel.Text);
         }
     }
 }

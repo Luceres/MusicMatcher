@@ -8,9 +8,9 @@ namespace MusicMatcher.Common
             return new MediathekViewModel();
         }
 
-        public IArtistDetailViewModel CreateArtistDetailViewModel(Artist artist)
+        public ISongDetailViewModel CreateSongDetailViewModel()
         {
-            return new ArtistDetailViewModel(artist);
+            return new SongDetailViewModel();
         }
     }
 }

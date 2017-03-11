@@ -40,12 +40,10 @@
     <Compile Include="Common\IMediathekService.cs" />
     <Compile Include="Data\Song.cs" />
     <Compile Include="Presenter\IMagicPresenter.cs" />
-    <Compile Include="ViewModels\ArtistDetailViewModel.cs" />
+    <Compile Include="ViewModels\SongDetailViewModel.cs" />
     <Compile Include="Data\Artist.cs" />
     <Compile Include="ViewModels\MediathekViewModel.cs" />
-    <Compile Include="Data\DataService.cs" />
-    <Compile Include="Data\IDataService.cs" />
-    <Compile Include="ViewModels\IArtistDetailViewModel.cs" />
+    <Compile Include="ViewModels\ISongDetailViewModel.cs" />
     <Compile Include="ViewModels\IMediathekViewModel.cs" />
     <Compile Include="Presenter\MagicPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

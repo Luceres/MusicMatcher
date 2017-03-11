@@ -3,6 +3,6 @@
     public interface IMagicPresenter
     {
         IMediathekViewModel CreateMediathekViewModel();
-        IArtistDetailViewModel CreateArtistDetailViewModel(Artist artist);
+        ISongDetailViewModel CreateSongDetailViewModel();
     }
 }
