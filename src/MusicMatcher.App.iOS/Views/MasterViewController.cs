@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Disposables;
 using MusicMatcher.Common;
 using Foundation;
 using ReactiveUI;
@@ -16,6 +17,16 @@ namespace MusicMatcher.App.iOS
             _presenter = Locator.Current.GetService<IMagicPresenter>();
 
             ViewModel = _presenter.CreateMediathekViewModel();
+
+            this.WhenActivated(
+                disposables =>
+                {
+                    ViewModel.LoadSongsCommand
+                       .Execute()
+                       .Subscribe()
+                       .DisposeWith(disposables);
+                }
+           );
         }
 
         public override void ViewDidLoad()
@@ -34,10 +45,6 @@ namespace MusicMatcher.App.iOS
                     SampleCell.SizeHint,
                     cell => cell.Initialize()
                 );
-
-            ViewModel.LoadSongsCommand
-                .Execute()
-                .Subscribe();
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
