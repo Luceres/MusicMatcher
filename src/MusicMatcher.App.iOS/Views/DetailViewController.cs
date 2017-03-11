@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Disposables;
 using MusicMatcher.Common;
 using ReactiveUI;
 using Splat;
@@ -15,19 +16,22 @@ namespace MusicMatcher.App.iOS
 
             ViewModel = _presenter.CreateSongDetailViewModel();
 
-            
+            this.WhenActivated(
+                disposables =>
+                {
+                    this.OneWayBind(
+                            ViewModel, 
+                            x => x.Song.Titel, 
+                            x => x.detailDescriptionLabel.Text
+                        )
+                        .DisposeWith(disposables);
+                }
+           );
         }
 
         public void SetDetailItem(Song song)
         {
             ViewModel.Song = song;
-        }
-
-        public override void ViewDidLoad()
-        {
-            base.ViewDidLoad();
-
-            this.OneWayBind(ViewModel, x => x.Song.Titel, x => x.detailDescriptionLabel.Text);
         }
     }
 }
