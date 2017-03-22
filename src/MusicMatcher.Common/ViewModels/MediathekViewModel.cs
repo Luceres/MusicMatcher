@@ -10,8 +10,9 @@ namespace MusicMatcher.Common
     internal class MediathekViewModel : ReactiveObject, IMediathekViewModel
     {
         private readonly IMediathekService _mediathekService;
-
         private readonly ReactiveList<Song> _songs;
+
+        public ReactiveList<Song> Songs => _songs;
 
         public MediathekViewModel()
         {
@@ -24,9 +25,17 @@ namespace MusicMatcher.Common
             {
                 Debug.WriteLine(ex.Message);
             });
+
+            PressTeachButtonCommand = ReactiveCommand.CreateFromTask(PressTeachButtonAsync);
+            PressTeachButtonCommand.ThrownExceptions.Subscribe(ex =>
+            {
+                Debug.WriteLine(ex.Message);
+            });
         }
 
         public ReactiveCommand<Unit, Unit> LoadSongsCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> PressTeachButtonCommand { get; }
 
         private async Task LoadSongsAsync()
         {
@@ -36,6 +45,11 @@ namespace MusicMatcher.Common
             _songs.AddRange(songs);
         }
 
-        public ReactiveList<Song> Songs => _songs;
+        private static Task PressTeachButtonAsync()
+        {
+            Debug.WriteLine("Hello");
+
+            return Task.FromResult(0);
+        }       
     }
 }

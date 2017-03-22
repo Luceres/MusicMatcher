@@ -1,5 +1,4 @@
 ﻿using System.Reactive;
-using System.Threading.Tasks;
 using ReactiveUI;
 
 namespace MusicMatcher.Common
@@ -9,5 +8,6 @@ namespace MusicMatcher.Common
         ReactiveList<Song> Songs { get; }
 
         ReactiveCommand<Unit, Unit> LoadSongsCommand { get; }
+        ReactiveCommand<Unit, Unit> PressTeachButtonCommand { get; }
     }
 }

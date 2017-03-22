@@ -10,6 +10,7 @@ namespace MusicMatcher.App.iOS
 {
     public partial class MasterViewController : ReactiveTableViewController<IMediathekViewModel>
     {
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly IMagicPresenter _presenter;
 
         public MasterViewController(IntPtr handle) : base(handle)
@@ -22,11 +23,21 @@ namespace MusicMatcher.App.iOS
                 disposables =>
                 {
                     ViewModel.LoadSongsCommand
-                       .Execute()
-                       .Subscribe()
-                       .DisposeWith(disposables);
+                        .Execute()
+                        .Subscribe()
+                        .DisposeWith(disposables);
                 }
-           );
+            );
+
+            this.WhenActivated(
+                disposables =>
+                {
+                    disposables(this.BindCommand(
+                        ViewModel,
+                        x => x.PressTeachButtonCommand,
+                        x => x._teachButton));
+                }
+            );
         }
 
         public override void ViewDidLoad()
