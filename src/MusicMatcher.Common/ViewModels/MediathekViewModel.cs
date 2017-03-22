@@ -23,8 +23,7 @@ namespace MusicMatcher.Common
             LoadSongsCommand.ThrownExceptions.Subscribe(ex =>
             {
                 Debug.WriteLine(ex.Message);
-            }
-            );
+            });
         }
 
         public ReactiveCommand<Unit, Unit> LoadSongsCommand { get; }
